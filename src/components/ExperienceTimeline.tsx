@@ -1,234 +1,324 @@
 import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
-import { useRef } from "react";
-import { BarChart3, TrendingUp, Shield, GraduationCap } from "lucide-react";
+import { Zap, Database, LayoutDashboard } from "lucide-react";
 
-interface TimelineItemProps {
-  period: string;
-  company: string;
-  title: string;
-  description: string;
-  impact: string[];
-  metrics?: Array<{ label: string; value: string; trend?: "up" | "down" }>;
-  chart?: React.ReactNode;
-  icon: React.ReactNode;
-  delay: number;
-}
+const KPICard = ({ label, value, trend }: { label: string; value: string; trend?: "up" | "down" }) => (
+  <div className="bg-[#0D1B2A]/80 rounded-lg p-3 border border-[#1B3A5A]/40">
+    <p className="text-[#8FA3B8] text-xs mb-1">{label}</p>
+    <p className={`text-lg font-bold ${trend ? "text-[#00C8FF]" : "text-[#F2F6FA]"}`}>
+      {value}
+    </p>
+  </div>
+);
 
-const TimelineItem = ({
-  period,
-  company,
-  title,
-  description,
-  impact,
-  metrics,
-  chart,
-  icon,
-  delay,
-}: TimelineItemProps) => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, x: -50 }}
-      animate={isInView ? { opacity: 1, x: 0 } : {}}
-      transition={{ duration: 0.6, delay }}
-      className="relative pl-8 md:pl-12 pb-16 last:pb-0"
-    >
-      {/* Timeline dot */}
-      <div className="absolute left-0 top-0 w-4 h-4 bg-primary rounded-full glow-cyan-sm" />
-
-      {/* Timeline line */}
-      <div className="absolute left-[7px] top-4 bottom-0 w-0.5 bg-gradient-to-b from-primary/50 to-transparent" />
-
-      {/* Content card */}
-      <div className="bg-card border border-border/50 rounded-lg p-6 hover:border-primary/50 transition-all duration-300 group">
-        <div className="flex items-start gap-4 mb-4">
-          <div className="p-3 bg-primary/10 rounded-lg glow-cyan-sm group-hover:scale-110 transition-transform">
-            {icon}
+const BarChart = ({ data, title }: { data: { label: string; value: number }[]; title: string }) => (
+  <div className="bg-[#0D1B2A]/60 rounded-lg p-4 border border-[#1B3A5A]/30">
+    <p className="text-[#8FA3B8] text-xs mb-3">{title}</p>
+    <div className="space-y-2">
+      {data.map((item, i) => (
+        <div key={i} className="flex items-center gap-2">
+          <span className="text-[#8FA3B8] text-xs w-16 truncate">{item.label}</span>
+          <div className="flex-1 h-4 bg-[#0A1626] rounded-full overflow-hidden">
+            <motion.div
+              initial={{ width: 0 }}
+              whileInView={{ width: `${item.value}%` }}
+              transition={{ duration: 1, delay: i * 0.1 }}
+              viewport={{ once: true }}
+              className="h-full rounded-full"
+              style={{ background: `linear-gradient(90deg, #0066AA ${100 - item.value}%, #00C8FF 100%)` }}
+            />
           </div>
-          <div className="flex-1">
-            <p className="text-sm text-primary font-medium mb-1">{period} · {company}</p>
-            <h3 className="text-xl md:text-2xl font-display font-bold text-foreground mb-2">
-              {title}
-            </h3>
-            <p className="text-muted-foreground">{description}</p>
-          </div>
+          <span className="text-[#F2F6FA] text-xs w-8">{item.value}%</span>
         </div>
-
-        <div className="mb-4">
-          <h4 className="text-primary font-semibold mb-3">Impacto Clave</h4>
-          <ul className="space-y-2">
-            {impact.map((item, index) => (
-              <li key={index} className="text-sm text-muted-foreground flex items-start gap-2">
-                <span className="text-primary mt-1">•</span>
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Metrics display */}
-        {metrics && (
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4">
-            {metrics.map((metric, index) => (
-              <div
-                key={index}
-                className="bg-secondary/50 border border-primary/20 rounded-lg p-4 hover:border-primary/50 transition-colors"
-              >
-                <p className="text-xs text-muted-foreground mb-1">{metric.label}</p>
-                <p className={`text-2xl font-bold ${
-                  metric.trend === "up" ? "text-green-500" : 
-                  metric.trend === "down" ? "text-red-500" : 
-                  "text-primary"
-                }`}>
-                  {metric.value}
-                </p>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* Chart visualization */}
-        {chart && (
-          <div className="bg-secondary/30 rounded-lg p-4 border border-primary/10">
-            {chart}
-          </div>
-        )}
-      </div>
-    </motion.div>
-  );
-};
-
-const CometaChart = () => (
-  <div className="space-y-2">
-    <p className="text-xs text-muted-foreground mb-3">Crecimiento de LTV por Cohorte</p>
-    <div className="flex items-end justify-between gap-2 h-32">
-      {[60, 75, 85, 95, 100].map((height, i) => (
-        <motion.div
-          key={i}
-          initial={{ height: 0 }}
-          animate={{ height: `${height}%` }}
-          transition={{ duration: 0.5, delay: i * 0.1 }}
-          className="flex-1 bg-gradient-to-t from-primary to-primary/50 rounded-t"
-        />
       ))}
     </div>
   </div>
 );
 
-const NubankChart = () => (
-  <div className="relative h-32">
-    <motion.div
-      initial={{ scale: 0 }}
-      animate={{ scale: 1 }}
-      transition={{ duration: 0.8 }}
-      className="absolute inset-0 flex items-center justify-center"
-    >
-      <div className="relative w-32 h-32">
-        <svg viewBox="0 0 100 100" className="transform -rotate-90">
-          <circle
-            cx="50"
-            cy="50"
-            r="40"
-            fill="none"
-            stroke="hsl(var(--secondary))"
-            strokeWidth="8"
-          />
-          <motion.circle
-            cx="50"
-            cy="50"
-            r="40"
-            fill="none"
-            stroke="hsl(var(--primary))"
-            strokeWidth="8"
-            strokeLinecap="round"
-            initial={{ strokeDasharray: "0 251.2" }}
-            animate={{ strokeDasharray: "188.4 251.2" }}
-            transition={{ duration: 1, delay: 0.3 }}
-          />
-        </svg>
-        <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-2xl font-bold text-primary">85%</span>
-        </div>
-      </div>
-    </motion.div>
+const LineChart = ({ title }: { title: string }) => (
+  <div className="bg-[#0D1B2A]/60 rounded-lg p-4 border border-[#1B3A5A]/30">
+    <p className="text-[#8FA3B8] text-xs mb-3">{title}</p>
+    <svg viewBox="0 0 200 60" className="w-full h-12">
+      <defs>
+        <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#0066AA" />
+          <stop offset="100%" stopColor="#00C8FF" />
+        </linearGradient>
+      </defs>
+      <motion.path
+        d="M 0 45 Q 30 40, 50 35 T 100 25 T 150 20 T 200 10"
+        fill="none"
+        stroke="url(#lineGradient)"
+        strokeWidth="2"
+        initial={{ pathLength: 0 }}
+        whileInView={{ pathLength: 1 }}
+        transition={{ duration: 1.5 }}
+        viewport={{ once: true }}
+      />
+      {[0, 50, 100, 150, 200].map((x, i) => (
+        <motion.circle
+          key={i}
+          cx={x}
+          cy={45 - i * 8}
+          r="3"
+          fill="#00C8FF"
+          initial={{ opacity: 0, scale: 0 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.3 + i * 0.15 }}
+          viewport={{ once: true }}
+        />
+      ))}
+    </svg>
   </div>
 );
 
-const ExperienceTimeline = () => {
+const DonutChart = ({ segments, title }: { segments: { label: string; value: number }[]; title: string }) => {
+  const total = segments.reduce((acc, s) => acc + s.value, 0);
+  let cumulative = 0;
+  const colors = ["#00C8FF", "#0088CC", "#005588"];
+
   return (
-    <section id="experience" className="py-20 px-4">
-      <div className="max-w-4xl mx-auto">
+    <div className="bg-[#0D1B2A]/60 rounded-lg p-4 border border-[#1B3A5A]/30">
+      <p className="text-[#8FA3B8] text-xs mb-3">{title}</p>
+      <div className="flex items-center gap-4">
+        <svg viewBox="0 0 36 36" className="w-16 h-16">
+          {segments.map((segment, i) => {
+            const strokeDasharray = `${(segment.value / total) * 100} ${100 - (segment.value / total) * 100}`;
+            const strokeDashoffset = 25 - cumulative;
+            cumulative += (segment.value / total) * 100;
+            return (
+              <motion.circle
+                key={i}
+                cx="18"
+                cy="18"
+                r="15.9"
+                fill="none"
+                stroke={colors[i % colors.length]}
+                strokeWidth="3"
+                strokeDasharray={strokeDasharray}
+                strokeDashoffset={strokeDashoffset}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ delay: i * 0.2 }}
+                viewport={{ once: true }}
+              />
+            );
+          })}
+        </svg>
+        <div className="space-y-1">
+          {segments.map((s, i) => (
+            <div key={i} className="flex items-center gap-2">
+              <div className="w-2 h-2 rounded-full" style={{ background: colors[i % colors.length] }} />
+              <span className="text-[#8FA3B8] text-xs">{s.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+interface TimelineItemProps {
+  title: string;
+  period: string;
+  description: string;
+  impacts: string[];
+  icon: React.ReactNode;
+  dashboard: React.ReactNode;
+  index: number;
+}
+
+const TimelineItem = ({ title, period, description, impacts, icon, dashboard, index }: TimelineItemProps) => (
+  <motion.div
+    initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
+    whileInView={{ opacity: 1, x: 0 }}
+    transition={{ duration: 0.6, delay: 0.1 }}
+    viewport={{ once: true, margin: "-50px" }}
+    className="relative grid grid-cols-1 lg:grid-cols-[1fr,auto,1fr] gap-6 lg:gap-8"
+  >
+    {/* Content card */}
+    <div className={`${index % 2 === 0 ? 'lg:order-1' : 'lg:order-3 lg:col-start-3'}`}>
+      <motion.div
+        whileHover={{ scale: 1.01 }}
+        transition={{ duration: 0.2 }}
+        className="bg-[#0A1626] rounded-2xl p-6 border border-[#1B3A5A]/50 
+                   hover:border-[#00C8FF]/30 hover:shadow-[0_0_30px_rgba(0,200,255,0.08)]
+                   transition-all duration-300"
+      >
+        <div className="flex items-start gap-4 mb-4">
+          <div className="p-2.5 rounded-xl bg-[#0D1B2A] border border-[#1B3A5A]/50 text-[#00C8FF]">
+            {icon}
+          </div>
+          <div>
+            <span className="text-[#00C8FF] text-sm font-medium">{period}</span>
+            <h3 className="text-[#F2F6FA] text-lg font-semibold mt-1 leading-tight">{title}</h3>
+          </div>
+        </div>
+
+        <p className="text-[#8FA3B8] text-sm leading-relaxed mb-5">{description}</p>
+
+        <div className="space-y-2">
+          <p className="text-[#F2F6FA] text-xs font-semibold uppercase tracking-wider mb-3">Impacto clave</p>
+          {impacts.map((impact, i) => (
+            <div key={i} className="flex items-start gap-2">
+              <div className="w-1 h-1 rounded-full bg-[#00C8FF] mt-2 shrink-0" />
+              <span className="text-[#8FA3B8] text-sm">{impact}</span>
+            </div>
+          ))}
+        </div>
+      </motion.div>
+    </div>
+
+    {/* Timeline node */}
+    <div className="hidden lg:flex lg:order-2 flex-col items-center">
+      <motion.div
+        initial={{ scale: 0 }}
+        whileInView={{ scale: 1 }}
+        transition={{ duration: 0.4, delay: 0.2 }}
+        viewport={{ once: true }}
+        className="w-4 h-4 rounded-full bg-[#00C8FF] shadow-[0_0_20px_rgba(0,200,255,0.5)] z-10"
+      />
+      <div className="w-px flex-1 bg-gradient-to-b from-[#00C8FF]/50 to-[#1B3A5A]/30" />
+    </div>
+
+    {/* Dashboard */}
+    <div className={`${index % 2 === 0 ? 'lg:order-3' : 'lg:order-1'}`}>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.3 }}
+        viewport={{ once: true }}
+        className="space-y-3"
+      >
+        {dashboard}
+      </motion.div>
+    </div>
+  </motion.div>
+);
+
+const ExperienceTimeline = () => {
+  const experiences = [
+    {
+      title: "Data & Business Analyst Specialist – Cometa",
+      period: "2024 – Presente",
+      description: "Transformé la inteligencia operativa y financiera de Cometa creando la capa central de métricas que hoy guía decisiones de founders y equipos.",
+      impacts: [
+        "Arquitectura completa de KPIs 0 → 1 (GMV, churn, margin, forecast, revenue)",
+        "Reducción de tiempos de reporting de ~80h → 1h por ciclo",
+        "Modelo real de margen por colegio (corrigiendo años de errores)",
+        "Control Towers para ventas, soporte, AM, onboarding y finanzas",
+        "Enriquecimiento SIGED–HubSpot (+50k escuelas normalizadas)",
+        "Data quality y alertas operativas multi-área"
+      ],
+      icon: <Zap className="w-5 h-5" />,
+      dashboard: (
+        <>
+          <div className="grid grid-cols-3 gap-2">
+            <KPICard label="Reinscripción" value="+68%" trend="up" />
+            <KPICard label="Morosidad" value="–12 pts" trend="down" />
+            <KPICard label="Tiempo análisis" value="–85%" trend="down" />
+          </div>
+          <BarChart
+            title="Margen real vs estimado"
+            data={[
+              { label: "Estimado", value: 45 },
+              { label: "Real", value: 72 }
+            ]}
+          />
+          <LineChart title="Pricing corregido desde datos transaccionales" />
+        </>
+      )
+    },
+    {
+      title: "Data Analyst – Cometa",
+      period: "2023 – 2024",
+      description: "Construí las bases del data hub de la empresa unificando fuentes y creando los primeros modelos para reporting y forecasting.",
+      impacts: [
+        "Integración de Intercom, Treble, HubSpot, Kushki, Twilio y Mixpanel",
+        "Modelos semánticos iniciales en Redshift",
+        "Selección y adopción de Metabase como BI principal",
+        "Automatización de ETLs y validaciones internas"
+      ],
+      icon: <Database className="w-5 h-5" />,
+      dashboard: (
+        <>
+          <BarChart
+            title="Visibilidad por canal"
+            data={[
+              { label: "Intercom", value: 85 },
+              { label: "Treble", value: 78 },
+              { label: "WhatsApp", value: 92 },
+              { label: "Portal", value: 65 }
+            ]}
+          />
+          <div className="grid grid-cols-2 gap-2">
+            <KPICard label="Visibilidad multi-fuente" value="0 → 1" />
+            <KPICard label="Errores corregidos" value="+340" trend="up" />
+          </div>
+        </>
+      )
+    },
+    {
+      title: "Operations Strategy & Planning – Nubank",
+      period: "2022 – 2024",
+      description: "Diseñé visibilidad operativa para una operación de +300 agentes. Creé dashboards, métricas, scorecards y monitoreo en tiempo real que mejoraron eficiencia y decisiones tácticas.",
+      impacts: [
+        "Dashboards en Looker/LookML para performance, SLAs, volumen y eficiencia",
+        "Scorecards para 300+ agentes: calidad, carga y productividad",
+        "Monitoreo en Grafana para picos, incidencias y alertas",
+        "Forecast y capacity planning para carga operativa",
+        "Puente entre ingeniería (Databricks) y negocio (ML en routing)",
+        "Experiencia previa en Customer Excellence (facturación y casos complejos)"
+      ],
+      icon: <LayoutDashboard className="w-5 h-5" />,
+      dashboard: (
+        <>
+          <DonutChart
+            title="Distribución por Squad"
+            segments={[
+              { label: "Soporte", value: 45 },
+              { label: "Ventas", value: 30 },
+              { label: "Retención", value: 25 }
+            ]}
+          />
+          <LineChart title="Volumen diario vs capacidad" />
+          <div className="grid grid-cols-2 gap-2">
+            <KPICard label="Errores reporteo" value="–15%" trend="down" />
+            <KPICard label="Tiempo respuesta" value="–22%" trend="down" />
+          </div>
+        </>
+      )
+    }
+  ];
+
+  return (
+    <section id="experiencia" className="py-24 px-4 relative overflow-hidden" style={{ background: 'linear-gradient(180deg, #050B17 0%, #08121F 100%)' }}>
+      {/* Subtle background elements */}
+      <div className="absolute inset-0 opacity-30">
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#00C8FF]/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-[#0066AA]/5 rounded-full blur-3xl" />
+      </div>
+
+      <div className="container mx-auto max-w-6xl relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="mb-16 text-center"
+          viewport={{ once: true }}
+          className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-4">
-            Experience & Education Timeline
+          <span className="text-[#00C8FF] text-sm font-medium tracking-widest uppercase">Trayectoria</span>
+          <h2 className="text-3xl md:text-4xl font-bold text-[#F2F6FA] mt-3">
+            Experience Timeline
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            Mi trayectoria transformando datos en estrategias de negocio
+          <p className="text-[#8FA3B8] mt-4 max-w-2xl mx-auto">
+            Mi evolución: de operaciones a escala en Nubank a construir la verdad del negocio en Cometa.
           </p>
         </motion.div>
 
-        <div className="relative">
-          <TimelineItem
-            period="2023 - Presente"
-            company="Cometa"
-            title="Liderazgo en Estrategia de Datos como Data Analyst Specialist"
-            description="Impacto directo en la eficiencia operativa y el crecimiento del negocio."
-            impact={[
-              "Implementé control towers para ventas, AM y soporte con métricas accionables semanales",
-              "Análisis de cartera que redujo la morosidad e incrementó la reinscripción",
-              "Desarrollé el LTV para optimizar la estrategia de adquisición de clientes"
-            ]}
-            metrics={[
-              { label: "Reinscripción 24-25", value: "68%" },
-              { label: "Report Time", value: "-85%", trend: "down" },
-              { label: "Morosidad", value: "-12 pts", trend: "down" }
-            ]}
-            chart={<CometaChart />}
-            icon={<BarChart3 className="w-6 h-6 text-primary" />}
-            delay={0.1}
-          />
-
-          <TimelineItem
-            period="2021 - 2023"
-            company="Nubank"
-            title="Análisis y Detección de Fraude como Business Analyst"
-            description="Protegiendo a millones de usuarios a través de la analítica de datos."
-            impact={[
-              "Creé dashboards en Looker para monitorear patrones de fraude en tiempo real, mejorando la detección",
-              "Reduje falsos positivos en 15% mediante la optimización de modelos de riesgo"
-            ]}
-            metrics={[
-              { label: "Fraude Detenido", value: "+2.3M", trend: "up" },
-              { label: "Falsos Positivos", value: "-15%", trend: "down" }
-            ]}
-            chart={<NubankChart />}
-            icon={<Shield className="w-6 h-6 text-primary" />}
-            delay={0.2}
-          />
-
-          <TimelineItem
-            period="2016 - 2021"
-            company="UNAM"
-            title="Fundamentos Analíticos y Técnicos en Ingeniería Mecatrónica"
-            description="Formación sólida en resolución de problemas, estadística y programación."
-            impact={[
-              "Programación en Python y R para análisis estadístico avanzado",
-              "Diseño y ejecución de proyectos de automatización y control",
-              "Desarrollo de habilidades en cálculo, álgebra lineal y estadística aplicada"
-            ]}
-            icon={<GraduationCap className="w-6 h-6 text-primary" />}
-            delay={0.3}
-          />
+        <div className="space-y-12 lg:space-y-16">
+          {experiences.map((exp, index) => (
+            <TimelineItem key={index} {...exp} index={index} />
+          ))}
         </div>
       </div>
     </section>
