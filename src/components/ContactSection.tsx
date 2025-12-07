@@ -4,19 +4,19 @@ import { Calendar, Linkedin, Mail } from "lucide-react";
 
 const ContactSection = () => {
   return (
-    <section id="contact" className="py-24 px-4 relative overflow-hidden">
+    <section id="contact" className="py-20 px-4 relative overflow-hidden">
       {/* Background accent */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-primary/10 rounded-full blur-[100px]" />
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[500px] h-[250px] bg-primary/5 rounded-full blur-[100px]" />
       </div>
 
-      <div className="max-w-3xl mx-auto relative z-10">
+      <div className="max-w-2xl mx-auto relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="bg-card border border-border/50 rounded-2xl p-8 md:p-12 text-center"
+          className="bg-card border border-border/50 rounded-2xl p-8 md:p-10 text-center"
         >
           {/* Avatar/Logo */}
           <motion.div
@@ -24,11 +24,11 @@ const ContactSection = () => {
             whileInView={{ scale: 1 }}
             viewport={{ once: true }}
             transition={{ type: "spring", stiffness: 200, delay: 0.2 }}
-            className="w-24 h-24 mx-auto mb-6 relative"
+            className="w-20 h-20 mx-auto mb-5 relative"
           >
-            <div className="absolute inset-0 bg-primary/20 rounded-full blur-xl animate-glow" />
-            <div className="relative w-full h-full bg-card border-2 border-primary/40 rounded-full flex items-center justify-center">
-              <span className="text-3xl font-display font-bold text-foreground">GZ</span>
+            <div className="absolute inset-0 bg-primary/15 rounded-full blur-xl" />
+            <div className="relative w-full h-full bg-card border-2 border-primary/30 rounded-full flex items-center justify-center">
+              <span className="text-2xl font-display font-bold text-foreground">GZ</span>
             </div>
           </motion.div>
 
@@ -38,7 +38,7 @@ const ContactSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.3 }}
-            className="text-2xl md:text-3xl font-display font-bold text-foreground mb-4"
+            className="text-xl md:text-2xl font-display font-bold text-foreground mb-3"
           >
             ¿Hablamos de datos, estrategia o impacto real?
           </motion.h2>
@@ -48,7 +48,7 @@ const ContactSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.4 }}
-            className="text-muted-foreground mb-8 max-w-md mx-auto"
+            className="text-sm text-muted-foreground mb-6 max-w-md mx-auto"
           >
             Siempre abierto a conversar sobre operaciones, métricas y cómo los datos pueden transformar negocios.
           </motion.p>
@@ -59,11 +59,11 @@ const ContactSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.5 }}
-            className="mb-8"
+            className="mb-6"
           >
             <Button
               size="lg"
-              className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-8 shadow-lg shadow-primary/20"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-6 shadow-lg shadow-primary/20"
             >
               <Calendar className="mr-2 h-4 w-4" />
               Agendar llamada
@@ -76,7 +76,7 @@ const ContactSection = () => {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.6 }}
-            className="flex justify-center gap-4"
+            className="flex justify-center gap-3"
           >
             <Button
               variant="ghost"
@@ -102,10 +102,9 @@ const ContactSection = () => {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.7 }}
-          className="text-center mt-12 text-sm text-muted-foreground"
+          className="text-center mt-10 text-xs text-muted-foreground"
         >
-          <p>© {new Date().getFullYear()} Gustavo Zuleta</p>
-          <p className="text-xs mt-1">Data & Business Analyst</p>
+          <p>© {new Date().getFullYear()} Gustavo Zuleta · Data & Business Analyst</p>
         </motion.footer>
       </div>
     </section>
