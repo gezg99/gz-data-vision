@@ -1,17 +1,17 @@
 import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
+import GameChanger from "@/components/GameChanger";
 import ExperienceTimeline from "@/components/ExperienceTimeline";
-import FinalCTA from "@/components/FinalCTA";
+import ContactSection from "@/components/ContactSection";
 
 const Index = () => {
   return (
-    <div className="relative">
+    <div className="min-h-screen bg-background">
       <Navigation />
-      <main>
-        <Hero />
-        <ExperienceTimeline />
-        <FinalCTA />
-      </main>
+      <Hero />
+      <GameChanger />
+      <ExperienceTimeline />
+      <ContactSection />
     </div>
   );
 };
