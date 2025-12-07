@@ -8,58 +8,39 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 220 30% 8%;
-    --foreground: 210 20% 95%;
-
-    --card: 220 25% 12%;
-    --card-foreground: 210 20% 95%;
-
-    --popover: 220 25% 12%;
-    --popover-foreground: 210 20% 95%;
-
-    --primary: 190 100% 50%;
-    --primary-foreground: 220 30% 8%;
-
-    --secondary: 220 20% 18%;
-    --secondary-foreground: 210 20% 95%;
-
-    --muted: 220 20% 18%;
-    --muted-foreground: 210 15% 60%;
-
-    --accent: 190 100% 50%;
-    --accent-foreground: 220 30% 8%;
-
-    --destructive: 0 84.2% 60.2%;
+    --background: 216 45% 8%;
+    --foreground: 210 40% 98%;
+    --card: 215 42% 12%;
+    --card-foreground: 210 40% 98%;
+    --popover: 215 42% 12%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 193 100% 55%;
+    --primary-foreground: 216 45% 8%;
+    --secondary: 215 35% 18%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 215 30% 20%;
+    --muted-foreground: 210 20% 65%;
+    --accent: 193 100% 55%;
+    --accent-foreground: 216 45% 8%;
+    --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
-
-    --border: 220 20% 20%;
-    --input: 220 20% 18%;
-    --ring: 190 100% 50%;
-
+    --border: 215 30% 18%;
+    --input: 215 30% 18%;
+    --ring: 193 100% 55%;
     --radius: 0.75rem;
-    
-    /* Custom colors for the portfolio */
-    --cyan-glow: 190 100% 50%;
-    --blue-deep: 220 30% 8%;
-    --blue-dark: 220 25% 12%;
-    --gradient-start: 220 40% 10%;
-    --gradient-end: 220 30% 5%;
-
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --cyan-glow: 193 100% 55%;
+    --blue-deep: 216 45% 8%;
+    --blue-dark: 215 42% 12%;
+    --gradient-start: 216 45% 8%;
+    --gradient-end: 216 50% 5%;
+    --sidebar-background: 215 42% 10%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 193 100% 55%;
+    --sidebar-primary-foreground: 216 45% 8%;
+    --sidebar-accent: 215 35% 18%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 215 30% 18%;
+    --sidebar-ring: 193 100% 55%;
   }
 
   .dark {
