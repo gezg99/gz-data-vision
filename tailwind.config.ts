@@ -54,6 +54,7 @@ export default {
           deep: "hsl(var(--blue-deep))",
           dark: "hsl(var(--blue-dark))",
         },
+        highlight: "hsl(var(--highlight))",
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],

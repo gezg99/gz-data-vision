@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Button } from "./ui/button";
-import { Calendar, Linkedin, Mail } from "lucide-react";
+import { Calendar, Linkedin, Mail, Briefcase } from "lucide-react";
 
 const ContactSection = () => {
   return (
@@ -59,15 +59,28 @@ const ContactSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.5 }}
-            className="mb-6"
+            className="mb-4"
           >
             <Button
               size="lg"
               className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-6 shadow-lg shadow-primary/20"
+              onClick={() => window.open('https://calendly.com', '_blank')}
             >
               <Calendar className="mr-2 h-4 w-4" />
               Agendar llamada
             </Button>
+          </motion.div>
+
+          {/* Freelance note */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.55 }}
+            className="flex items-center justify-center gap-2 text-xs text-muted-foreground mb-6"
+          >
+            <Briefcase className="w-3 h-3" />
+            <span>También disponible para proyectos freelance de data analytics</span>
           </motion.div>
 
           {/* Social links */}

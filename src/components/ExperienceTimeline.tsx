@@ -23,21 +23,21 @@ const ExperienceTimeline = () => {
         >
           <span className="text-primary text-sm font-medium tracking-widest uppercase">Trayectoria</span>
           <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground mt-2">
-            Experience Timeline
+            Mi Trayectoria
           </h2>
           <p className="text-muted-foreground mt-3 max-w-xl mx-auto text-sm">
-            Mi evolución: de operaciones a escala en Nubank a construir la verdad del negocio en Cometa.
+            De operaciones a escala en Nubank a construir la verdad del negocio en Cometa.
           </p>
         </motion.div>
 
         {/* Timeline vertical line */}
         <div className="absolute left-0 md:left-1/2 top-40 bottom-20 w-px bg-gradient-to-b from-primary/50 via-primary/20 to-transparent hidden md:block" style={{ transform: 'translateX(-50%)' }} />
 
-        {/* Timeline blocks */}
+        {/* Timeline blocks - Order: Current first (most relevant) */}
         <div className="space-y-16 md:space-y-20 pl-6 md:pl-0">
-          <NubankBlock />
-          <CometaAnalystBlock />
           <CometaSpecialistBlock />
+          <CometaAnalystBlock />
+          <NubankBlock />
         </div>
       </div>
     </section>

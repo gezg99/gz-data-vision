@@ -1,20 +1,191 @@
 import { motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 
-// Shared KPI Card Component
+// Count up animation hook
+const useCountUp = (endValue: number, duration: number = 2000) => {
+  const [count, setCount] = useState(0);
+  const [hasAnimated, setHasAnimated] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasAnimated) {
+          setHasAnimated(true);
+          let start = 0;
+          const increment = endValue / (duration / 16);
+          
+          const timer = setInterval(() => {
+            start += increment;
+            if (start >= endValue) {
+              setCount(endValue);
+              clearInterval(timer);
+            } else {
+              setCount(Math.floor(start));
+            }
+          }, 16);
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => observer.disconnect();
+  }, [endValue, duration, hasAnimated]);
+
+  return { count, ref };
+};
+
+// Shared KPI Card Component with large numbers
 export const KPICard = ({ 
   label, 
   value, 
-  trend 
+  trend,
+  large = false
 }: { 
   label: string; 
   value: string; 
-  trend?: "up" | "down"; 
+  trend?: "up" | "down";
+  large?: boolean;
 }) => (
   <div className="bg-background/50 border border-border/30 rounded-lg p-3 text-center">
     <p className="text-xs text-muted-foreground mb-1">{label}</p>
-    <p className={`text-lg font-bold font-display ${trend === "up" ? "text-primary" : trend === "down" ? "text-primary" : "text-foreground"}`}>
+    <p className={`font-bold font-display ${large ? 'text-2xl md:text-3xl' : 'text-lg md:text-xl'} ${trend ? "text-primary" : "text-foreground"}`}>
       {value}
     </p>
+  </div>
+);
+
+// Animated KPI with count-up
+export const AnimatedKPI = ({
+  label,
+  value,
+  suffix = "",
+  prefix = ""
+}: {
+  label: string;
+  value: number;
+  suffix?: string;
+  prefix?: string;
+}) => {
+  const { count, ref } = useCountUp(value);
+  
+  return (
+    <div ref={ref} className="bg-background/50 border border-border/30 rounded-lg p-3 text-center">
+      <p className="text-xs text-muted-foreground mb-1">{label}</p>
+      <p className="text-2xl md:text-3xl font-bold font-display text-primary">
+        {prefix}{count}{suffix}
+      </p>
+    </div>
+  );
+};
+
+// Area Chart with gradient (for contacts reduction)
+export const AreaChart = ({ 
+  title,
+  reduction
+}: { 
+  title: string;
+  reduction: string;
+}) => {
+  return (
+    <div className="space-y-2">
+      <div className="flex justify-between items-center">
+        <p className="text-xs text-muted-foreground">{title}</p>
+        <span className="text-sm font-bold text-primary">{reduction}</span>
+      </div>
+      <div className="h-16 bg-background/30 rounded-lg p-2 relative overflow-hidden">
+        <svg viewBox="0 0 100 40" className="w-full h-full" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.4" />
+              <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0.05" />
+            </linearGradient>
+          </defs>
+          {/* Before line (higher) */}
+          <motion.path
+            initial={{ pathLength: 0, opacity: 0 }}
+            whileInView={{ pathLength: 1, opacity: 0.3 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1 }}
+            d="M 0,10 Q 25,12 50,15 T 100,18"
+            fill="none"
+            stroke="hsl(var(--muted-foreground))"
+            strokeWidth="1.5"
+            strokeDasharray="4 2"
+          />
+          {/* After area (lower, with gradient) */}
+          <motion.path
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.2, delay: 0.3 }}
+            d="M 0,25 Q 25,28 50,30 T 100,32 L 100,40 L 0,40 Z"
+            fill="url(#areaGradient)"
+          />
+          <motion.path
+            initial={{ pathLength: 0, opacity: 0 }}
+            whileInView={{ pathLength: 1, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.2, delay: 0.3 }}
+            d="M 0,25 Q 25,28 50,30 T 100,32"
+            fill="none"
+            stroke="hsl(var(--primary))"
+            strokeWidth="2"
+          />
+        </svg>
+      </div>
+      <div className="flex justify-between text-[10px] text-muted-foreground">
+        <span>Antes</span>
+        <span>Después</span>
+      </div>
+    </div>
+  );
+};
+
+// Animated Comparison Bar
+export const ComparisonBar = ({ 
+  label, 
+  before, 
+  after, 
+  beforeLabel = "Antes", 
+  afterLabel = "Después" 
+}: { 
+  label: string; 
+  before: number; 
+  after: number; 
+  beforeLabel?: string; 
+  afterLabel?: string; 
+}) => (
+  <div className="space-y-2">
+    <p className="text-xs text-muted-foreground">{label}</p>
+    <div className="flex gap-3 items-end h-20">
+      <div className="flex-1 flex flex-col items-center">
+        <motion.div
+          initial={{ height: 0 }}
+          whileInView={{ height: `${(before / Math.max(before, after)) * 100}%` }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="w-full bg-muted-foreground/30 rounded-t"
+        />
+        <span className="text-[10px] text-muted-foreground mt-1">{beforeLabel}</span>
+        <span className="text-base font-bold font-display">{before}%</span>
+      </div>
+      <div className="flex-1 flex flex-col items-center">
+        <motion.div
+          initial={{ height: 0 }}
+          whileInView={{ height: `${(after / Math.max(before, after)) * 100}%` }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="w-full bg-primary rounded-t"
+        />
+        <span className="text-[10px] text-muted-foreground mt-1">{afterLabel}</span>
+        <span className="text-base font-bold font-display text-primary">{after}%</span>
+      </div>
+    </div>
   </div>
 );
 
@@ -49,50 +220,7 @@ export const HorizontalBarChart = ({
   );
 };
 
-// Comparison Bar Chart
-export const ComparisonBar = ({ 
-  label, 
-  before, 
-  after, 
-  beforeLabel = "Antes", 
-  afterLabel = "Después" 
-}: { 
-  label: string; 
-  before: number; 
-  after: number; 
-  beforeLabel?: string; 
-  afterLabel?: string; 
-}) => (
-  <div className="space-y-2">
-    <p className="text-xs text-muted-foreground">{label}</p>
-    <div className="flex gap-2 items-end h-16">
-      <div className="flex-1 flex flex-col items-center">
-        <motion.div
-          initial={{ height: 0 }}
-          whileInView={{ height: `${(before / Math.max(before, after)) * 100}%` }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="w-full bg-muted-foreground/30 rounded-t"
-        />
-        <span className="text-[10px] text-muted-foreground mt-1">{beforeLabel}</span>
-        <span className="text-xs font-medium">{before}%</span>
-      </div>
-      <div className="flex-1 flex flex-col items-center">
-        <motion.div
-          initial={{ height: 0 }}
-          whileInView={{ height: `${(after / Math.max(before, after)) * 100}%` }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="w-full bg-primary rounded-t"
-        />
-        <span className="text-[10px] text-muted-foreground mt-1">{afterLabel}</span>
-        <span className="text-xs font-medium text-primary">{after}%</span>
-      </div>
-    </div>
-  </div>
-);
-
-// Line Chart
+// Line Chart for Forecast
 export const LineChart = ({ 
   title,
   dataPoints = 8,
@@ -115,7 +243,7 @@ export const LineChart = ({
   return (
     <div className="space-y-2">
       <p className="text-xs text-muted-foreground">{title}</p>
-      <div className="h-20 bg-background/30 rounded-lg p-2 relative overflow-hidden">
+      <div className="h-16 bg-background/30 rounded-lg p-2 relative overflow-hidden">
         <svg viewBox="0 0 100 100" className="w-full h-full" preserveAspectRatio="none">
           {showComparison && (
             <motion.path
@@ -163,7 +291,7 @@ export const BigNumber = ({
       whileInView={{ scale: 1 }}
       viewport={{ once: true }}
       transition={{ type: "spring", stiffness: 200 }}
-      className="text-3xl font-bold font-display text-primary"
+      className="text-3xl md:text-4xl font-bold font-display text-primary"
     >
       {value}
     </motion.p>
@@ -220,57 +348,69 @@ export const DashboardMockup = () => (
   </div>
 );
 
-// Donut Chart
-export const DonutChart = ({ 
-  title,
-  segments 
-}: { 
-  title: string;
-  segments: { label: string; value: number }[];
-}) => {
-  const total = segments.reduce((acc, s) => acc + s.value, 0);
-  let currentAngle = 0;
-
-  return (
-    <div className="space-y-2">
-      <p className="text-xs text-muted-foreground text-center">{title}</p>
-      <div className="relative w-20 h-20 mx-auto">
-        <svg viewBox="0 0 100 100" className="w-full h-full -rotate-90">
-          {segments.map((segment, i) => {
-            const angle = (segment.value / total) * 360;
-            const startAngle = currentAngle;
-            currentAngle += angle;
-            
-            const startRad = (startAngle * Math.PI) / 180;
-            const endRad = ((startAngle + angle) * Math.PI) / 180;
-            
-            const x1 = 50 + 35 * Math.cos(startRad);
-            const y1 = 50 + 35 * Math.sin(startRad);
-            const x2 = 50 + 35 * Math.cos(endRad);
-            const y2 = 50 + 35 * Math.sin(endRad);
-            
-            const largeArc = angle > 180 ? 1 : 0;
-            
-            return (
-              <motion.path
-                key={segment.label}
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                d={`M 50 50 L ${x1} ${y1} A 35 35 0 ${largeArc} 1 ${x2} ${y2} Z`}
-                fill={i === 0 ? "hsl(var(--primary))" : `hsl(var(--primary) / ${0.6 - i * 0.15})`}
-              />
-            );
-          })}
-          <circle cx="50" cy="50" r="20" fill="hsl(var(--card))" />
-        </svg>
+// Time reduction visual
+export const TimeReduction = () => (
+  <div className="bg-background/50 border border-border/30 rounded-lg p-4 text-center">
+    <p className="text-xs text-muted-foreground mb-2">Tiempo de reporting</p>
+    <div className="flex items-center justify-center gap-3">
+      <div className="relative">
+        <span className="text-2xl md:text-3xl font-display text-muted-foreground/50 line-through">80h</span>
       </div>
-      <div className="flex flex-wrap gap-2 justify-center">
-        {segments.map((s, i) => (
-          <span key={s.label} className="text-[9px] text-muted-foreground">{s.label}</span>
-        ))}
+      <motion.div
+        initial={{ scale: 0 }}
+        whileInView={{ scale: 1 }}
+        viewport={{ once: true }}
+        transition={{ type: "spring", stiffness: 200, delay: 0.3 }}
+        className="text-primary"
+      >
+        →
+      </motion.div>
+      <motion.div
+        initial={{ scale: 0, opacity: 0 }}
+        whileInView={{ scale: 1, opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ type: "spring", stiffness: 200, delay: 0.5 }}
+        className="relative"
+      >
+        <div className="absolute inset-0 bg-primary/20 blur-lg rounded-full" />
+        <span className="relative text-3xl md:text-4xl font-display font-bold text-primary">1h</span>
+      </motion.div>
+    </div>
+    <p className="text-[10px] text-muted-foreground mt-2">por ciclo</p>
+  </div>
+);
+
+// Margin comparison horizontal bars
+export const MarginComparison = () => (
+  <div className="space-y-2">
+    <p className="text-xs text-muted-foreground mb-3">Margen estimado vs real</p>
+    <div className="space-y-3">
+      <div className="flex items-center gap-2">
+        <span className="text-xs text-muted-foreground w-16">Estimado</span>
+        <div className="flex-1 h-4 bg-background/50 rounded-full overflow-hidden">
+          <motion.div
+            initial={{ width: 0 }}
+            whileInView={{ width: "45%" }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="h-full bg-muted-foreground/40 rounded-full"
+          />
+        </div>
+        <span className="text-sm font-bold w-12 text-right text-muted-foreground">45%</span>
+      </div>
+      <div className="flex items-center gap-2">
+        <span className="text-xs text-muted-foreground w-16">Real</span>
+        <div className="flex-1 h-4 bg-background/50 rounded-full overflow-hidden">
+          <motion.div
+            initial={{ width: 0 }}
+            whileInView={{ width: "72%" }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="h-full bg-gradient-to-r from-primary/80 to-primary rounded-full"
+          />
+        </div>
+        <span className="text-lg font-bold w-12 text-right text-primary">72%</span>
       </div>
     </div>
-  );
-};
+  </div>
+);

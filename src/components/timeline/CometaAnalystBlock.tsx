@@ -3,15 +3,6 @@ import { Database } from "lucide-react";
 import { HorizontalBarChart, BigNumber, IntegrationMap } from "./TimelineCharts";
 
 const CometaAnalystBlock = () => {
-  const impacts = [
-    "Integración de Intercom, Treble, HubSpot, Kushki, Twilio, Mixpanel y Bancometa a Redshift",
-    "Modelos semánticos iniciales que permitieron reporting sin SQL",
-    "Selección de Metabase como BI principal tras BI bake-off",
-    "Automatización de cargas y correcciones vía APIs",
-    "Control tower piloto para soporte/comunicaciones",
-    "Resolución de tickets críticos del ciclo escolar con Python y APIs"
-  ];
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 40 }}
@@ -91,39 +82,50 @@ const CometaAnalystBlock = () => {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="md:pl-10"
         >
-          <div className="bg-card border border-border/50 rounded-xl p-5 hover:border-primary/20 transition-colors duration-300">
-            {/* Header */}
+          <div className="bg-card border border-border/50 rounded-xl p-5 hover:border-primary/20 transition-all duration-300 group">
+            {/* Header with badge */}
             <div className="flex items-center gap-2 mb-3">
+              <span className="px-2 py-0.5 bg-primary/10 rounded-full text-[10px] text-primary font-medium">
+                🚀 Startup
+              </span>
               <Database className="w-4 h-4 text-primary" />
-              <span className="text-xs text-primary font-medium uppercase tracking-wider">Cometa</span>
             </div>
             
             <h3 className="text-lg font-display font-bold text-foreground mb-1">
               Data Analyst
             </h3>
-            <p className="text-xs text-primary font-medium mb-4">2023 – 2024</p>
+            <p className="text-sm text-primary font-medium mb-1">Cometa</p>
+            <p className="text-xs text-muted-foreground mb-4">2023 – 2024</p>
             
-            <p className="text-sm text-muted-foreground leading-relaxed mb-5">
-              Construí las bases del data hub integrando Intercom, Treble, HubSpot, Kushki, Twilio, Mixpanel y Bancometa a Redshift. Creé modelos semánticos, automatización de correcciones vía APIs y lideré el BI bake-off que seleccionó Metabase.
-            </p>
-
-            <div className="space-y-2">
-              <p className="text-xs text-muted-foreground uppercase tracking-wider mb-2">Impacto Clave</p>
-              <ul className="space-y-1.5">
-                {impacts.map((impact, i) => (
-                  <motion.li
-                    key={i}
-                    initial={{ opacity: 0, x: 10 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.3 + i * 0.03 }}
-                    className="text-xs text-muted-foreground flex items-start gap-2"
-                  >
-                    <span className="w-1 h-1 rounded-full bg-primary/50 mt-1.5 flex-shrink-0" />
-                    <span>{impact}</span>
-                  </motion.li>
-                ))}
-              </ul>
+            {/* Problem → Solution → Result structure */}
+            <div className="space-y-3">
+              <div>
+                <p className="text-xs text-primary/70 uppercase tracking-wider mb-1">El problema</p>
+                <p className="text-sm text-muted-foreground">
+                  Datos aislados en 7 sistemas diferentes sin manera de cruzar información.
+                </p>
+              </div>
+              
+              <div>
+                <p className="text-xs text-primary/70 uppercase tracking-wider mb-1">Mi solución</p>
+                <p className="text-sm text-muted-foreground">
+                  Construí el data hub integrando todas las fuentes a Redshift, creé modelos semánticos y lideré el BI bake-off que seleccionó Metabase.
+                </p>
+              </div>
+              
+              <div>
+                <p className="text-xs text-primary/70 uppercase tracking-wider mb-1">El resultado</p>
+                <div className="flex flex-wrap gap-3 mt-2">
+                  <div className="text-center">
+                    <p className="text-2xl font-display font-bold text-primary">7</p>
+                    <p className="text-[10px] text-muted-foreground">Fuentes integradas</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-2xl font-display font-bold text-primary">+340</p>
+                    <p className="text-[10px] text-muted-foreground">Errores corregidos</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </motion.div>
