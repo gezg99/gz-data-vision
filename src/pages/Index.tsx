@@ -1,10 +1,11 @@
 import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
-import GameChanger from "@/components/GameChanger";
-import Superpoder from "@/components/Superpoder";
+import SelectedWork from "@/components/SelectedWork";
+import HowIWork from "@/components/HowIWork";
+import Skills from "@/components/Skills";
 import ExperienceTimeline from "@/components/ExperienceTimeline";
-import TechStack from "@/components/TechStack";
-import FeaturedProjects from "@/components/FeaturedProjects";
+import OtherProjects from "@/components/OtherProjects";
+import AboutMe from "@/components/AboutMe";
 import ContactSection from "@/components/ContactSection";
 
 const Index = () => {
@@ -12,11 +13,12 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <Navigation />
       <Hero />
-      <GameChanger />
-      <Superpoder />
+      <SelectedWork />
+      <HowIWork />
+      <Skills />
       <ExperienceTimeline />
-      <TechStack />
-      <FeaturedProjects />
+      <OtherProjects />
+      <AboutMe />
       <ContactSection />
     </div>
   );
