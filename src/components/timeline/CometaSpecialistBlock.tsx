@@ -1,18 +1,8 @@
 import { motion } from "framer-motion";
-import { Target, Zap } from "lucide-react";
-import { KPICard, LineChart, DashboardMockup } from "./TimelineCharts";
+import { Target } from "lucide-react";
+import { AnimatedKPI, LineChart, DashboardMockup, TimeReduction, MarginComparison } from "./TimelineCharts";
 
 const CometaSpecialistBlock = () => {
-  const impacts = [
-    "Arquitectura completa de KPIs 0 → 1 (GMV, churn, margin, forecast, revenue)",
-    "Reducción del tiempo de reporting de 80h → 1h por ciclo",
-    "Modelo real de margen por colegio (corrigiendo pricing defectuoso histórico)",
-    "One-pagers y control towers para ventas, soporte, AM, onboarding y finanzas",
-    "Normalización SIGED–HubSpot (50k+ escuelas limpias)",
-    "Data quality, alertas operativas y validaciones automáticas",
-    "Insights financieros para founders: drivers reales de rentabilidad"
-  ];
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 40 }}
@@ -22,8 +12,8 @@ const CometaSpecialistBlock = () => {
       className="relative"
     >
       {/* Timeline node with glow for current role */}
-      <div className="absolute left-0 md:left-1/2 top-0 w-3 h-3 bg-primary rounded-full transform -translate-x-1/2 z-10 shadow-lg shadow-primary/40">
-        <div className="absolute inset-0 bg-primary rounded-full animate-ping opacity-20" />
+      <div className="absolute left-0 md:left-1/2 top-0 w-4 h-4 bg-[hsl(var(--highlight))] rounded-full transform -translate-x-1/2 z-10 shadow-lg shadow-[hsl(var(--highlight)/0.4)]">
+        <div className="absolute inset-0 bg-[hsl(var(--highlight))] rounded-full animate-ping opacity-30" />
       </div>
       
       <div className="grid md:grid-cols-2 gap-6 md:gap-10">
@@ -35,42 +25,60 @@ const CometaSpecialistBlock = () => {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="md:pr-10 md:text-right order-2 md:order-1"
         >
-          <div className="bg-card border border-primary/20 rounded-xl p-5 hover:border-primary/30 transition-colors duration-300 relative overflow-hidden">
-            {/* Current role indicator */}
-            <div className="absolute top-0 right-0 w-16 h-16 bg-primary/5 rounded-full blur-2xl" />
+          <div className="bg-card border-2 border-[hsl(var(--highlight)/0.5)] rounded-xl p-5 hover:border-[hsl(var(--highlight)/0.7)] transition-all duration-300 relative overflow-hidden shadow-lg shadow-[hsl(var(--highlight)/0.1)]">
+            {/* Current role glow */}
+            <div className="absolute top-0 right-0 w-24 h-24 bg-[hsl(var(--highlight)/0.1)] rounded-full blur-3xl" />
             
-            {/* Header */}
+            {/* Header with badges */}
             <div className="flex items-center gap-2 md:justify-end mb-3 relative z-10">
+              <span className="px-2 py-0.5 bg-[hsl(var(--highlight)/0.15)] border border-[hsl(var(--highlight)/0.3)] rounded-full text-[10px] text-[hsl(var(--highlight))] font-medium">
+                ✨ Rol Actual
+              </span>
+              <span className="px-2 py-0.5 bg-primary/10 rounded-full text-[10px] text-primary font-medium">
+                🚀 Startup
+              </span>
               <Target className="w-4 h-4 text-primary" />
-              <span className="text-xs text-primary font-medium uppercase tracking-wider">Cometa • Presente</span>
             </div>
             
-            <h3 className="text-lg font-display font-bold text-foreground mb-1">
+            <h3 className="text-xl font-display font-bold text-foreground mb-1 relative z-10">
               Data & Business Analyst Specialist
             </h3>
-            <p className="text-xs text-primary font-medium mb-4">2024 – Presente</p>
+            <p className="text-sm text-primary font-medium mb-1">Cometa</p>
+            <p className="text-xs text-[hsl(var(--highlight))] font-medium mb-4">2024 – Presente</p>
             
-            <p className="text-sm text-muted-foreground leading-relaxed mb-5">
-              Transformé la inteligencia operativa y financiera creando la capa central de métricas que guía decisiones de founders. Desarrollé el modelo real de margen por colegio, corrigiendo años de errores contables y redefiniendo estrategia, pricing y rentabilidad.
-            </p>
-
-            <div className="space-y-2">
-              <p className="text-xs text-muted-foreground uppercase tracking-wider mb-2 md:text-right">Impacto Clave</p>
-              <ul className="space-y-1.5">
-                {impacts.map((impact, i) => (
-                  <motion.li
-                    key={i}
-                    initial={{ opacity: 0, x: -10 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.3 + i * 0.03 }}
-                    className="text-xs text-muted-foreground flex items-start gap-2 md:flex-row-reverse md:text-right"
-                  >
-                    <span className="w-1 h-1 rounded-full bg-primary mt-1.5 flex-shrink-0" />
-                    <span>{impact}</span>
-                  </motion.li>
-                ))}
-              </ul>
+            {/* Problem → Solution → Result structure */}
+            <div className="space-y-3 text-left md:text-right relative z-10">
+              <div>
+                <p className="text-xs text-primary/70 uppercase tracking-wider mb-1">El problema</p>
+                <p className="text-sm text-muted-foreground">
+                  Los founders tomaban decisiones con datos incorrectos—el margen reportado estaba completamente errado.
+                </p>
+              </div>
+              
+              <div>
+                <p className="text-xs text-primary/70 uppercase tracking-wider mb-1">Mi solución</p>
+                <p className="text-sm text-muted-foreground">
+                  Descubrí que el margen real era 72%, no 45%. Construí la arquitectura completa de KPIs y reduje el tiempo de análisis de 80 horas a 1 hora por ciclo.
+                </p>
+              </div>
+              
+              <div>
+                <p className="text-xs text-primary/70 uppercase tracking-wider mb-1">El resultado</p>
+                <div className="flex flex-wrap gap-3 md:justify-end mt-2">
+                  <div className="text-center">
+                    <p className="text-2xl md:text-3xl font-display font-bold text-primary">72%</p>
+                    <p className="text-[10px] text-muted-foreground">Margen real</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-2xl md:text-3xl font-display font-bold text-primary">-85%</p>
+                    <p className="text-[10px] text-muted-foreground">Tiempo análisis</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-2xl md:text-3xl font-display font-bold text-primary">50k+</p>
+                    <p className="text-[10px] text-muted-foreground">Escuelas limpias</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </motion.div>
@@ -86,43 +94,13 @@ const CometaSpecialistBlock = () => {
           <div className="bg-card/50 border border-border/30 rounded-xl p-4 space-y-4">
             {/* KPIs Row */}
             <div className="grid grid-cols-3 gap-2">
-              <KPICard label="Reinscripción" value="+68%" trend="up" />
-              <KPICard label="Morosidad" value="–12pts" trend="down" />
-              <KPICard label="Tiempo análisis" value="–85%" trend="down" />
+              <AnimatedKPI label="Reinscripción" value={68} prefix="+" suffix="%" />
+              <AnimatedKPI label="Morosidad" value={12} prefix="-" suffix="pts" />
+              <AnimatedKPI label="Tiempo" value={85} prefix="-" suffix="%" />
             </div>
 
             {/* Margin comparison */}
-            <div>
-              <p className="text-xs text-muted-foreground mb-2">Margen estimado vs real</p>
-              <div className="space-y-2">
-                <div className="flex items-center gap-2">
-                  <span className="text-xs text-muted-foreground w-14">Estimado</span>
-                  <div className="flex-1 h-3 bg-background/50 rounded-full overflow-hidden">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      whileInView={{ width: "45%" }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.8 }}
-                      className="h-full bg-muted-foreground/30 rounded-full"
-                    />
-                  </div>
-                  <span className="text-xs w-8 text-right">45%</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-xs text-muted-foreground w-14">Real</span>
-                  <div className="flex-1 h-3 bg-background/50 rounded-full overflow-hidden">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      whileInView={{ width: "72%" }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.8, delay: 0.2 }}
-                      className="h-full bg-primary rounded-full"
-                    />
-                  </div>
-                  <span className="text-xs font-medium text-primary w-8 text-right">72%</span>
-                </div>
-              </div>
-            </div>
+            <MarginComparison />
 
             {/* Pricing correction timeline */}
             <LineChart 
@@ -136,15 +114,7 @@ const CometaSpecialistBlock = () => {
             </div>
 
             {/* Time reduction */}
-            <div className="bg-background/50 border border-border/30 rounded-lg p-3 text-center">
-              <p className="text-xs text-muted-foreground mb-1">Tiempo de reporting</p>
-              <div className="flex items-center justify-center gap-2">
-                <span className="text-base font-display text-muted-foreground line-through">80h</span>
-                <Zap className="w-3 h-3 text-primary" />
-                <span className="text-xl font-display font-bold text-primary">1h</span>
-              </div>
-              <p className="text-[10px] text-muted-foreground mt-0.5">por ciclo</p>
-            </div>
+            <TimeReduction />
           </div>
         </motion.div>
       </div>

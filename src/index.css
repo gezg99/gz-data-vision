@@ -33,6 +33,7 @@ All colors MUST be HSL.
     --blue-dark: 215 42% 12%;
     --gradient-start: 216 45% 8%;
     --gradient-end: 216 50% 5%;
+    --highlight: 45 93% 58%;
     --sidebar-background: 215 42% 10%;
     --sidebar-foreground: 210 40% 98%;
     --sidebar-primary: 193 100% 55%;
@@ -76,6 +77,10 @@ All colors MUST be HSL.
     box-shadow: 0 0 10px hsl(var(--cyan-glow) / 0.2);
   }
   
+  .glow-highlight {
+    box-shadow: 0 0 20px hsl(var(--highlight) / 0.3), 0 0 40px hsl(var(--highlight) / 0.15);
+  }
+  
   .text-glow {
     text-shadow: 0 0 20px hsl(var(--cyan-glow) / 0.5);
   }
@@ -101,5 +106,18 @@ All colors MUST be HSL.
   
   .gradient-border-content {
     background: hsl(var(--background));
+  }
+
+  .metric-xl {
+    @apply text-3xl md:text-4xl font-display font-bold;
+  }
+
+  .metric-lg {
+    @apply text-2xl md:text-3xl font-display font-bold;
+  }
+
+  .highlight-border {
+    border: 2px solid hsl(var(--highlight));
+    box-shadow: 0 0 30px hsl(var(--highlight) / 0.2);
   }
 }
