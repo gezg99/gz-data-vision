@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
-import { Menu } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useState } from "react";
+import { Button } from "./ui/button";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,49 +12,55 @@ const Navigation = () => {
     setIsOpen(false);
   };
 
+  const navItems = [
+    { label: "Work", id: "work" },
+    { label: "Experience", id: "experience" },
+    { label: "About", id: "about" },
+    { label: "Contact", id: "contact" },
+  ];
+
   return (
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6 }}
-      className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border/50"
+      className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-md border-b border-border/50"
     >
-      <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+      <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
         {/* Logo */}
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="flex items-center gap-2 group"
+          className="text-lg font-display font-bold text-foreground hover:text-primary transition-colors"
         >
-          <div className="w-10 h-10 flex items-center justify-center border-2 border-primary rounded-lg glow-cyan-sm group-hover:scale-110 transition-transform">
-            <span className="text-xl font-display font-bold text-primary">GZ</span>
-          </div>
+          Gustavo Zuleta
         </button>
 
         {/* Desktop menu */}
-        <div className="hidden md:flex items-center gap-6">
-          <button
-            onClick={() => scrollToSection("experience")}
-            className="text-muted-foreground hover:text-primary transition-colors"
+        <div className="hidden md:flex items-center gap-8">
+          {navItems.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => scrollToSection(item.id)}
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              {item.label}
+            </button>
+          ))}
+          <Button
+            size="sm"
+            onClick={() => scrollToSection("contact")}
+            className="bg-primary hover:bg-primary/90 text-primary-foreground"
           >
-            Experiencia
-          </button>
-          <button
-            onClick={() => window.open("https://linkedin.com", "_blank")}
-            className="text-muted-foreground hover:text-primary transition-colors"
-          >
-            LinkedIn
-          </button>
-          <button className="px-4 py-2 bg-primary/10 border border-primary/50 text-primary rounded-lg hover:bg-primary/20 transition-colors">
-            Contacto
-          </button>
+            Get in touch
+          </Button>
         </div>
 
         {/* Mobile menu button */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden p-2 text-primary"
+          className="md:hidden p-2 text-foreground"
         >
-          <Menu className="w-6 h-6" />
+          {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
       </div>
 
@@ -66,21 +73,21 @@ const Navigation = () => {
           className="md:hidden bg-card border-t border-border/50"
         >
           <div className="px-4 py-4 space-y-3">
-            <button
-              onClick={() => scrollToSection("experience")}
-              className="block w-full text-left text-muted-foreground hover:text-primary transition-colors py-2"
+            {navItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => scrollToSection(item.id)}
+                className="block w-full text-left text-muted-foreground hover:text-foreground transition-colors py-2"
+              >
+                {item.label}
+              </button>
+            ))}
+            <Button
+              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
+              onClick={() => scrollToSection("contact")}
             >
-              Experiencia
-            </button>
-            <button
-              onClick={() => window.open("https://linkedin.com", "_blank")}
-              className="block w-full text-left text-muted-foreground hover:text-primary transition-colors py-2"
-            >
-              LinkedIn
-            </button>
-            <button className="w-full px-4 py-2 bg-primary/10 border border-primary/50 text-primary rounded-lg hover:bg-primary/20 transition-colors">
-              Contacto
-            </button>
+              Get in touch
+            </Button>
           </div>
         </motion.div>
       )}

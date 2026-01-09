@@ -1,125 +1,103 @@
 import { motion } from "framer-motion";
 import { Button } from "./ui/button";
-import { Calendar, Linkedin, Mail, Briefcase } from "lucide-react";
+import { Mail, Linkedin, Calendar } from "lucide-react";
 
 const ContactSection = () => {
   return (
-    <section id="contact" className="py-20 px-4 relative overflow-hidden">
-      {/* Background accent */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[500px] h-[250px] bg-primary/5 rounded-full blur-[100px]" />
-      </div>
-
-      <div className="max-w-2xl mx-auto relative z-10">
+    <section id="contact" className="py-24 px-4">
+      <div className="max-w-3xl mx-auto text-center">
+        {/* Section header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="bg-card border border-border/50 rounded-2xl p-8 md:p-10 text-center"
+          className="mb-8"
         >
-          {/* Avatar/Logo */}
-          <motion.div
-            initial={{ scale: 0 }}
-            whileInView={{ scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ type: "spring", stiffness: 200, delay: 0.2 }}
-            className="w-20 h-20 mx-auto mb-5 relative"
-          >
-            <div className="absolute inset-0 bg-primary/15 rounded-full blur-xl" />
-            <div className="relative w-full h-full bg-card border-2 border-primary/30 rounded-full flex items-center justify-center">
-              <span className="text-2xl font-display font-bold text-foreground">GZ</span>
-            </div>
-          </motion.div>
-
-          {/* Text */}
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3 }}
-            className="text-xl md:text-2xl font-display font-bold text-foreground mb-3"
-          >
-            ¿Hablamos de datos, estrategia o impacto real?
-          </motion.h2>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.4 }}
-            className="text-sm text-muted-foreground mb-6 max-w-md mx-auto"
-          >
-            Siempre abierto a conversar sobre operaciones, métricas y cómo los datos pueden transformar negocios.
-          </motion.p>
-
-          {/* CTA Button */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.5 }}
-            className="mb-4"
-          >
-            <Button
-              size="lg"
-              className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-6 shadow-lg shadow-primary/20"
-              onClick={() => window.open('https://calendly.com', '_blank')}
-            >
-              <Calendar className="mr-2 h-4 w-4" />
-              Agendar llamada
-            </Button>
-          </motion.div>
-
-          {/* Freelance note */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.55 }}
-            className="flex items-center justify-center gap-2 text-xs text-muted-foreground mb-6"
-          >
-            <Briefcase className="w-3 h-3" />
-            <span>También disponible para proyectos freelance de data analytics</span>
-          </motion.div>
-
-          {/* Social links */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.6 }}
-            className="flex justify-center gap-3"
-          >
-            <Button
-              variant="ghost"
-              size="icon"
-              className="text-muted-foreground hover:text-primary hover:bg-primary/10"
-              onClick={() => window.open('https://linkedin.com', '_blank')}
-            >
-              <Linkedin className="w-5 h-5" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="text-muted-foreground hover:text-primary hover:bg-primary/10"
-            >
-              <Mail className="w-5 h-5" />
-            </Button>
-          </motion.div>
+          <p className="text-primary text-sm font-medium tracking-widest uppercase mb-2">Contact</p>
+          <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground mb-4">
+            ¿Trabajamos juntos?
+          </h2>
+          <p className="text-muted-foreground max-w-xl mx-auto">
+            Si necesitas ayuda con análisis de datos, arquitectura de métricas o 
+            transformar operaciones caóticas en sistemas claros, hablemos.
+          </p>
         </motion.div>
 
-        {/* Footer */}
-        <motion.footer
+        {/* Contact info */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="flex flex-col sm:flex-row gap-4 justify-center mb-8"
+        >
+          <Button
+            size="lg"
+            className="bg-primary hover:bg-primary/90 text-primary-foreground"
+            onClick={() => window.location.href = 'mailto:gustavo.zuleta@email.com'}
+          >
+            <Mail className="mr-2 h-4 w-4" />
+            Enviar Email
+          </Button>
+
+          <Button
+            size="lg"
+            variant="outline"
+            className="border-border hover:bg-card"
+            onClick={() => window.open('https://calendly.com', '_blank')}
+          >
+            <Calendar className="mr-2 h-4 w-4" />
+            Agendar Llamada
+          </Button>
+        </motion.div>
+
+        {/* Social links */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="flex justify-center gap-4 mb-8"
+        >
+          <button
+            onClick={() => window.location.href = 'mailto:gustavo.zuleta@email.com'}
+            className="p-3 bg-card border border-border/50 rounded-lg hover:border-primary/30 transition-colors"
+          >
+            <Mail className="w-5 h-5 text-muted-foreground hover:text-primary transition-colors" />
+          </button>
+          <button
+            onClick={() => window.open('https://linkedin.com/in/gustavo-zuleta', '_blank')}
+            className="p-3 bg-card border border-border/50 rounded-lg hover:border-primary/30 transition-colors"
+          >
+            <Linkedin className="w-5 h-5 text-muted-foreground hover:text-primary transition-colors" />
+          </button>
+        </motion.div>
+
+        {/* Freelance note */}
+        <motion.p
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.7 }}
-          className="text-center mt-10 text-xs text-muted-foreground"
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="text-sm text-muted-foreground"
         >
-          <p>© {new Date().getFullYear()} Gustavo Zuleta · Data & Business Analyst</p>
-        </motion.footer>
+          También disponible para proyectos freelance de data analytics
+        </motion.p>
       </div>
+
+      {/* Footer */}
+      <motion.footer
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, delay: 0.4 }}
+        className="mt-16 pt-8 border-t border-border/30 text-center"
+      >
+        <p className="text-xs text-muted-foreground">
+          © {new Date().getFullYear()} Gustavo Zuleta. Todos los derechos reservados.
+        </p>
+      </motion.footer>
     </section>
   );
 };
