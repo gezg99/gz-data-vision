@@ -1,6 +1,9 @@
 import { motion } from "framer-motion";
+import { useLanguage } from "./LanguageProvider";
 
 const AboutMe = () => {
+  const { t } = useLanguage();
+
   return (
     <section id="about" className="py-24 px-4 bg-card/30">
       <div className="max-w-4xl mx-auto">
@@ -12,9 +15,9 @@ const AboutMe = () => {
           transition={{ duration: 0.6 }}
           className="mb-12"
         >
-          <p className="text-primary text-sm font-medium tracking-widest uppercase mb-2">About</p>
+          <p className="text-primary text-sm font-medium tracking-widest uppercase mb-2">{t("about.subtitle")}</p>
           <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground">
-            Sobre Mí
+            {t("about.title")}
           </h2>
         </motion.div>
 
@@ -27,8 +30,8 @@ const AboutMe = () => {
             transition={{ duration: 0.5 }}
             className="flex-shrink-0"
           >
-            <div className="w-32 h-32 md:w-40 md:h-40 bg-card border-2 border-primary/40 rounded-full flex items-center justify-center">
-              <span className="text-4xl md:text-5xl font-display font-bold text-primary">GZ</span>
+            <div className="w-32 h-32 md:w-40 md:h-40 bg-primary rounded-2xl flex items-center justify-center shadow-lg">
+              <span className="text-4xl md:text-5xl font-display font-bold text-primary-foreground">GZ</span>
             </div>
           </motion.div>
 
@@ -41,21 +44,15 @@ const AboutMe = () => {
             className="space-y-4"
           >
             <p className="text-muted-foreground leading-relaxed">
-              Me apasiona transformar el caos de datos en claridad estratégica. Creo firmemente que 
-              los mejores insights vienen de cuestionar las métricas que todos dan por sentadas—como 
-              cuando descubrí que el margen reportado de una empresa estaba 27 puntos por debajo de la realidad.
+              {t("about.p1")}
             </p>
 
             <p className="text-muted-foreground leading-relaxed">
-              Mi filosofía es simple: los datos deben servir para tomar decisiones, no solo para 
-              llenar dashboards. Por eso me enfoco en construir sistemas que no solo reportan, 
-              sino que alertan, predicen y permiten actuar con confianza.
+              {t("about.p2")}
             </p>
 
             <p className="text-muted-foreground leading-relaxed">
-              Fuera del trabajo, me interesa la intersección entre tecnología y negocios, 
-              explorar nuevas herramientas de productividad y optimizar procesos—tanto 
-              profesionales como personales.
+              {t("about.p3")}
             </p>
           </motion.div>
         </div>

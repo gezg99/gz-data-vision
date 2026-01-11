@@ -1,32 +1,35 @@
 import { motion } from "framer-motion";
-import { Target, BarChart3, Eye, Zap } from "lucide-react";
-
-const principles = [
-  {
-    icon: Target,
-    title: "Métricas como contratos",
-    description: "Antes de construir algo, aseguro que todos acuerden qué significa éxito y cómo se mide.",
-  },
-  {
-    icon: BarChart3,
-    title: "Calidad antes que dashboards",
-    description: "Ninguna visualización arregla datos malos. Priorizo integridad upstream antes de delivery downstream.",
-  },
-  {
-    icon: Eye,
-    title: "Diseño para observabilidad",
-    description: "Los sistemas deben decirte cuándo fallan. Construyo monitoreo y alertas en cada pipeline.",
-  },
-  {
-    icon: Zap,
-    title: "Decisiones, no solo gráficas",
-    description: "El objetivo no es un dashboard bonito—es que alguien pueda actuar con confianza.",
-  },
-];
+import { FileCheck, Database, Eye, Target } from "lucide-react";
+import { useLanguage } from "./LanguageProvider";
 
 const HowIWork = () => {
+  const { t } = useLanguage();
+
+  const principles = [
+    {
+      icon: FileCheck,
+      title: t("how.principle1.title"),
+      description: t("how.principle1.desc"),
+    },
+    {
+      icon: Database,
+      title: t("how.principle2.title"),
+      description: t("how.principle2.desc"),
+    },
+    {
+      icon: Eye,
+      title: t("how.principle3.title"),
+      description: t("how.principle3.desc"),
+    },
+    {
+      icon: Target,
+      title: t("how.principle4.title"),
+      description: t("how.principle4.desc"),
+    },
+  ];
+
   return (
-    <section className="py-24 px-4 bg-card/30">
+    <section className="py-24 px-4">
       <div className="max-w-5xl mx-auto">
         {/* Section header */}
         <motion.div
@@ -36,9 +39,9 @@ const HowIWork = () => {
           transition={{ duration: 0.6 }}
           className="mb-12"
         >
-          <p className="text-primary text-sm font-medium tracking-widest uppercase mb-2">Philosophy</p>
+          <p className="text-primary text-sm font-medium tracking-widest uppercase mb-2">{t("how.subtitle")}</p>
           <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground">
-            Cómo Trabajo
+            {t("how.title")}
           </h2>
         </motion.div>
 
@@ -46,23 +49,21 @@ const HowIWork = () => {
         <div className="grid md:grid-cols-2 gap-6">
           {principles.map((principle, index) => (
             <motion.div
-              key={principle.title}
+              key={index}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="flex gap-4 group"
+              className="flex gap-4 p-6 rounded-xl bg-card border border-border/50"
             >
-              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors">
-                <principle.icon className="w-6 h-6 text-primary" />
+              <div className="flex-shrink-0">
+                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                  <principle.icon className="w-5 h-5 text-primary" />
+                </div>
               </div>
               <div>
-                <h3 className="text-lg font-display font-bold text-foreground mb-2">
-                  {principle.title}
-                </h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  {principle.description}
-                </p>
+                <h3 className="font-semibold text-foreground mb-2">{principle.title}</h3>
+                <p className="text-sm text-muted-foreground">{principle.description}</p>
               </div>
             </motion.div>
           ))}

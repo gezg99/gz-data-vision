@@ -1,31 +1,34 @@
 import { motion } from "framer-motion";
+import { useLanguage } from "./LanguageProvider";
 
 const skillCategories = [
   {
     category: "Data & Analytics",
-    skills: ["SQL", "Python", "Statistical Analysis", "Cohort Analysis"],
+    skills: ["SQL", "Python", "Pandas", "NumPy", "Statistical Analysis", "Cohort Analysis", "A/B Testing"],
   },
   {
     category: "BI & Visualization",
-    skills: ["Metabase", "Looker", "LookML", "Grafana", "Data Studio"],
+    skills: ["Metabase", "Looker", "LookML", "Grafana", "Power BI", "Tableau", "QuickSight", "Data Studio"],
   },
   {
     category: "Data Engineering",
-    skills: ["Redshift", "PostgreSQL", "APIs", "ETL"],
+    skills: ["Redshift", "PostgreSQL", "BigQuery", "AWS S3", "ETL/ELT", "Data Modeling", "APIs"],
   },
   {
     category: "Business & Strategy",
-    skills: ["Financial Modeling", "Forecasting", "KPI Design", "Pricing"],
+    skills: ["Financial Modeling", "Forecasting", "KPI Design", "Pricing", "Semantic Models", "Data Governance"],
   },
   {
     category: "Tools & Platforms",
-    skills: ["HubSpot", "Intercom", "Mixpanel", "Twilio", "Kushki"],
+    skills: ["HubSpot", "Intercom", "Mixpanel", "Twilio", "Kushki", "Slack Integrations", "Git"],
   },
 ];
 
 const Skills = () => {
+  const { t } = useLanguage();
+
   return (
-    <section className="py-24 px-4">
+    <section className="py-24 px-4 bg-card/30">
       <div className="max-w-5xl mx-auto">
         {/* Section header */}
         <motion.div
@@ -35,32 +38,29 @@ const Skills = () => {
           transition={{ duration: 0.6 }}
           className="mb-12"
         >
-          <p className="text-primary text-sm font-medium tracking-widest uppercase mb-2">Skills</p>
+          <p className="text-primary text-sm font-medium tracking-widest uppercase mb-2">{t("skills.subtitle")}</p>
           <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground">
-            Skills & Tooling
+            {t("skills.title")}
           </h2>
         </motion.div>
 
         {/* Skills grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {skillCategories.map((category, catIndex) => (
+          {skillCategories.map((cat, index) => (
             <motion.div
-              key={category.category}
+              key={cat.category}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: catIndex * 0.1 }}
-              className="bg-card border border-border/50 rounded-xl p-5"
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="bg-card rounded-xl p-6 border border-border/50"
             >
-              <h3 className="text-sm font-medium text-primary mb-4 uppercase tracking-wider">
-                {category.category}
-              </h3>
-              
+              <h3 className="text-sm font-semibold text-primary mb-4">{cat.category}</h3>
               <div className="flex flex-wrap gap-2">
-                {category.skills.map((skill) => (
+                {cat.skills.map((skill) => (
                   <span
                     key={skill}
-                    className="px-3 py-1.5 bg-secondary/50 border border-border/30 rounded-lg text-sm text-foreground hover:border-primary/30 transition-colors"
+                    className="px-2 py-1 text-xs bg-secondary rounded-md text-foreground"
                   >
                     {skill}
                   </span>

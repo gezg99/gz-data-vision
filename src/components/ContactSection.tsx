@@ -1,10 +1,17 @@
 import { motion } from "framer-motion";
 import { Button } from "./ui/button";
 import { Mail, Linkedin, Calendar } from "lucide-react";
+import { useLanguage } from "./LanguageProvider";
+
+const LINKEDIN_URL = "https://www.linkedin.com/in/gustavo-zuleta-guerrero-/";
+const CAL_URL = "https://cal.com/gustavo-zuleta-guerrero-wl7rrb";
+const EMAIL = "geduardozg@hotmail.com";
 
 const ContactSection = () => {
+  const { t } = useLanguage();
+
   return (
-    <section id="contact" className="py-24 px-4">
+    <section id="contact" className="py-24 px-4 bg-card/30">
       <div className="max-w-3xl mx-auto text-center">
         {/* Section header */}
         <motion.div
@@ -14,17 +21,16 @@ const ContactSection = () => {
           transition={{ duration: 0.6 }}
           className="mb-8"
         >
-          <p className="text-primary text-sm font-medium tracking-widest uppercase mb-2">Contact</p>
+          <p className="text-primary text-sm font-medium tracking-widest uppercase mb-2">{t("contact.subtitle")}</p>
           <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground mb-4">
-            ¿Trabajamos juntos?
+            {t("contact.title")}
           </h2>
           <p className="text-muted-foreground max-w-xl mx-auto">
-            Si necesitas ayuda con análisis de datos, arquitectura de métricas o 
-            transformar operaciones caóticas en sistemas claros, hablemos.
+            {t("contact.description")}
           </p>
         </motion.div>
 
-        {/* Contact info */}
+        {/* Contact buttons */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -35,46 +41,50 @@ const ContactSection = () => {
           <Button
             size="lg"
             className="bg-primary hover:bg-primary/90 text-primary-foreground"
-            onClick={() => window.location.href = 'mailto:gustavo.zuleta@email.com'}
+            onClick={() => window.location.href = `mailto:${EMAIL}`}
           >
             <Mail className="mr-2 h-4 w-4" />
-            Enviar Email
+            {t("contact.sendEmail")}
           </Button>
 
           <Button
             size="lg"
             variant="outline"
             className="border-border hover:bg-card"
-            onClick={() => window.open('https://calendly.com', '_blank')}
+            onClick={() => window.open(CAL_URL, '_blank')}
           >
             <Calendar className="mr-2 h-4 w-4" />
-            Agendar Llamada
+            {t("contact.schedule")}
           </Button>
         </motion.div>
 
-        {/* Social links */}
+        {/* Contact info - only email and LinkedIn */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="flex justify-center gap-4 mb-8"
+          className="flex flex-wrap justify-center gap-6 mb-8"
         >
-          <button
-            onClick={() => window.location.href = 'mailto:gustavo.zuleta@email.com'}
-            className="p-3 bg-card border border-border/50 rounded-lg hover:border-primary/30 transition-colors"
+          <a 
+            href={`mailto:${EMAIL}`}
+            className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
           >
-            <Mail className="w-5 h-5 text-muted-foreground hover:text-primary transition-colors" />
-          </button>
-          <button
-            onClick={() => window.open('https://linkedin.com/in/gustavo-zuleta', '_blank')}
-            className="p-3 bg-card border border-border/50 rounded-lg hover:border-primary/30 transition-colors"
+            <Mail className="w-4 h-4" />
+            <span className="text-sm">{EMAIL}</span>
+          </a>
+          <a 
+            href={LINKEDIN_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
           >
-            <Linkedin className="w-5 h-5 text-muted-foreground hover:text-primary transition-colors" />
-          </button>
+            <Linkedin className="w-4 h-4" />
+            <span className="text-sm">LinkedIn</span>
+          </a>
         </motion.div>
 
-        {/* Freelance note */}
+        {/* Availability note */}
         <motion.p
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -82,7 +92,7 @@ const ContactSection = () => {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="text-sm text-muted-foreground"
         >
-          También disponible para proyectos freelance de data analytics
+          {t("contact.freelance")}
         </motion.p>
       </div>
 
@@ -95,7 +105,7 @@ const ContactSection = () => {
         className="mt-16 pt-8 border-t border-border/30 text-center"
       >
         <p className="text-xs text-muted-foreground">
-          © {new Date().getFullYear()} Gustavo Zuleta. Todos los derechos reservados.
+          © {new Date().getFullYear()} Gustavo Zuleta. {t("contact.rights")}
         </p>
       </motion.footer>
     </section>

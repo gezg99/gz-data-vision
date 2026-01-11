@@ -1,10 +1,14 @@
 import { motion } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Sun, Moon, Globe } from "lucide-react";
 import { useState } from "react";
 import { Button } from "./ui/button";
+import { useTheme } from "./ThemeProvider";
+import { useLanguage } from "./LanguageProvider";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { theme, toggleTheme } = useTheme();
+  const { language, toggleLanguage, t } = useLanguage();
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -13,10 +17,10 @@ const Navigation = () => {
   };
 
   const navItems = [
-    { label: "Work", id: "work" },
-    { label: "Experience", id: "experience" },
-    { label: "About", id: "about" },
-    { label: "Contact", id: "contact" },
+    { label: t("nav.work"), id: "work" },
+    { label: t("nav.experience"), id: "experience" },
+    { label: t("nav.about"), id: "about" },
+    { label: t("nav.contact"), id: "contact" },
   ];
 
   return (
@@ -24,19 +28,24 @@ const Navigation = () => {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6 }}
-      className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-md border-b border-border/50"
+      className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-md border-b border-border"
     >
       <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
         {/* Logo */}
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="text-lg font-display font-bold text-foreground hover:text-primary transition-colors"
+          className="flex items-center gap-2 group"
         >
-          Gustavo Zuleta
+          <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+            <span className="text-sm font-bold text-primary-foreground">GZ</span>
+          </div>
+          <span className="text-lg font-display font-bold text-foreground group-hover:text-primary transition-colors hidden sm:block">
+            Gustavo Zuleta
+          </span>
         </button>
 
         {/* Desktop menu */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-4">
           {navItems.map((item) => (
             <button
               key={item.id}
@@ -46,22 +55,70 @@ const Navigation = () => {
               {item.label}
             </button>
           ))}
+          
+          {/* Language toggle */}
+          <button
+            onClick={toggleLanguage}
+            className="flex items-center gap-1 px-2 py-1 rounded-md bg-secondary hover:bg-secondary/80 transition-colors text-xs font-medium"
+            aria-label="Toggle language"
+          >
+            <Globe className="w-3 h-3" />
+            {language.toUpperCase()}
+          </button>
+          
+          {/* Theme toggle */}
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-lg bg-secondary hover:bg-secondary/80 transition-colors"
+            aria-label="Toggle theme"
+          >
+            {theme === "light" ? (
+              <Moon className="w-4 h-4 text-foreground" />
+            ) : (
+              <Sun className="w-4 h-4 text-foreground" />
+            )}
+          </button>
+
           <Button
             size="sm"
             onClick={() => scrollToSection("contact")}
             className="bg-primary hover:bg-primary/90 text-primary-foreground"
           >
-            Get in touch
+            {t("nav.getInTouch")}
           </Button>
         </div>
 
-        {/* Mobile menu button */}
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden p-2 text-foreground"
-        >
-          {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-        </button>
+        {/* Mobile menu buttons */}
+        <div className="md:hidden flex items-center gap-2">
+          {/* Language toggle mobile */}
+          <button
+            onClick={toggleLanguage}
+            className="flex items-center gap-1 px-2 py-1 rounded-md bg-secondary hover:bg-secondary/80 transition-colors text-xs font-medium"
+            aria-label="Toggle language"
+          >
+            {language.toUpperCase()}
+          </button>
+          
+          {/* Theme toggle mobile */}
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-lg bg-secondary hover:bg-secondary/80 transition-colors"
+            aria-label="Toggle theme"
+          >
+            {theme === "light" ? (
+              <Moon className="w-4 h-4 text-foreground" />
+            ) : (
+              <Sun className="w-4 h-4 text-foreground" />
+            )}
+          </button>
+          
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="p-2 text-foreground"
+          >
+            {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile menu */}
@@ -70,7 +127,7 @@ const Navigation = () => {
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: "auto" }}
           exit={{ opacity: 0, height: 0 }}
-          className="md:hidden bg-card border-t border-border/50"
+          className="md:hidden bg-card border-t border-border"
         >
           <div className="px-4 py-4 space-y-3">
             {navItems.map((item) => (
@@ -86,7 +143,7 @@ const Navigation = () => {
               className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
               onClick={() => scrollToSection("contact")}
             >
-              Get in touch
+              {t("nav.getInTouch")}
             </Button>
           </div>
         </motion.div>
