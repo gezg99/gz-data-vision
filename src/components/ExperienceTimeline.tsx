@@ -6,11 +6,29 @@ const ExperienceTimeline = () => {
 
   const experiences = [
     {
-      period: language === "es" ? "Abr 2025 – Presente" : "Apr 2025 – Present",
-      role: "Data Analyst - Specialist",
+      period: language === "es" ? "Feb 2026 – Presente" : "Feb 2026 – Present",
+      role: "Product Engineer",
       company: "Cometa",
       badge: "🚀",
       isCurrent: true,
+      bullets: language === "es"
+        ? [
+            "Desarrollador único de la plataforma de pricing y comunicaciones (126k líneas, 180 APIs en producción)",
+            "Construí un copiloto de IA con tool-calling dentro de la herramienta de pricing para ventas",
+            "Sistema de recordatorios por WhatsApp a escala + automatización de comunicaciones con IA",
+          ]
+        : [
+            "Sole developer of the pricing & communications platform (126k lines, 180 APIs in production)",
+            "Built an AI copilot with tool-calling inside the sales pricing tool",
+            "WhatsApp reminder system at scale + AI-powered communications automation",
+          ],
+    },
+    {
+      period: language === "es" ? "Abr 2025 – Feb 2026" : "Apr 2025 – Feb 2026",
+      role: "Data Analyst - Specialist",
+      company: "Cometa",
+      badge: "🚀",
+      isCurrent: false,
       bullets: language === "es" 
         ? [
             "Responsable de arquitectura de métricas y modelos de negocio (GMV, margin, pricing, forecast)",
