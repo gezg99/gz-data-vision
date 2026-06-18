@@ -19,18 +19,18 @@ const translations: Record<Language, Record<string, string>> = {
     "nav.getInTouch": "Hablemos",
     
     // Hero
-    "hero.role": "Data & Business Analyst",
-    "hero.description": "Transformo datos caóticos en decisiones de negocio. He trabajado en Nubank y Cometa construyendo sistemas de métricas que permiten medir, corregir y decidir con confianza.",
+    "hero.role": "Product Engineer",
+    "hero.description": "Construyo productos y sistemas que la gente usa todos los días para decidir y operar. En Nubank y Cometa he creado desde plataformas de revenue hasta copilotos de IA — convirtiendo datos y problemas complejos en herramientas con impacto real.",
     "hero.downloadCV": "Descargar CV",
-    "hero.metric1.title": "KPIs de negocio",
-    "hero.metric1.subtitle": "Métricas críticas a escala empresa",
-    "hero.metric1.tag": "Sistema",
-    "hero.metric2.value": "3–4 semanas → 2–3 horas",
-    "hero.metric2.title": "Automatización de procesos críticos",
+    "hero.metric1.title": "Plataforma en producción",
+    "hero.metric1.subtitle": "126k líneas · usada a diario por 5 equipos",
+    "hero.metric1.tag": "Producto",
+    "hero.metric2.value": "~80h → ~1h",
+    "hero.metric2.title": "Reportería ejecutiva automatizada (≈99% ↓)",
     "hero.metric2.tag": "Eficiencia",
-    "hero.metric3.value": "Margen real revelado",
-    "hero.metric3.subtitle": "Supuestos → ~X% real",
-    "hero.metric3.tag": "Verdad financiera",
+    "hero.metric3.value": "Copiloto de IA",
+    "hero.metric3.subtitle": "tool-calling multi-modelo en producción",
+    "hero.metric3.tag": "IA",
     
     // Selected Work
     "work.subtitle": "Selected Work",
@@ -64,7 +64,7 @@ const translations: Record<Language, Record<string, string>> = {
     // Experience
     "exp.subtitle": "Experience",
     "exp.title": "Mi Trayectoria",
-    "exp.years": "3+ años transformando operaciones con datos",
+    "exp.years": "3+ años construyendo sistemas y productos con datos e IA",
     "exp.current": "Actual",
     
     // Other Projects
@@ -95,8 +95,8 @@ const translations: Record<Language, Record<string, string>> = {
     
     // Contact
     "contact.subtitle": "Contact",
-    "contact.title": "Tomemos mejores decisiones",
-    "contact.description": "Trabajo en la intersección entre datos, finanzas y negocio. Ayudo a equipos a identificar huecos, modelar escenarios y convertir complejidad en decisiones claras y accionables.",
+    "contact.title": "Construyamos algo que importe",
+    "contact.description": "Construyo productos y sistemas en la intersección de datos, IA y negocio. Ayudo a equipos a convertir complejidad en herramientas claras que la gente realmente usa.",
     "contact.sendEmail": "Enviar Email",
     "contact.schedule": "Agendar Reunión",
     "contact.freelance": "Colaboraciones estratégicas y roles full-time.",
@@ -111,18 +111,18 @@ const translations: Record<Language, Record<string, string>> = {
     "nav.getInTouch": "Get in touch",
     
     // Hero
-    "hero.role": "Data & Business Analyst",
-    "hero.description": "I turn chaotic data into business decisions. I've worked at Nubank and Cometa building metrics systems that enable measuring, correcting, and deciding with confidence.",
+    "hero.role": "Product Engineer",
+    "hero.description": "I build products and systems people use every day to decide and operate. At Nubank and Cometa I've built everything from revenue platforms to AI copilots — turning complex data and problems into tools with real impact.",
     "hero.downloadCV": "Download CV",
-    "hero.metric1.title": "Business KPIs",
-    "hero.metric1.subtitle": "Critical metrics at company scale",
-    "hero.metric1.tag": "System",
-    "hero.metric2.value": "3–4 weeks → 2–3 hours",
-    "hero.metric2.title": "Critical process automation",
+    "hero.metric1.title": "Production platform",
+    "hero.metric1.subtitle": "126k lines · used daily by 5 teams",
+    "hero.metric1.tag": "Product",
+    "hero.metric2.value": "~80h → ~1h",
+    "hero.metric2.title": "Executive reporting automated (≈99% ↓)",
     "hero.metric2.tag": "Efficiency",
-    "hero.metric3.value": "Real margin revealed",
-    "hero.metric3.subtitle": "Assumptions → ~X% real",
-    "hero.metric3.tag": "Financial truth",
+    "hero.metric3.value": "AI copilot",
+    "hero.metric3.subtitle": "multi-model tool-calling in production",
+    "hero.metric3.tag": "AI",
     
     // Selected Work
     "work.subtitle": "Selected Work",
@@ -156,7 +156,7 @@ const translations: Record<Language, Record<string, string>> = {
     // Experience
     "exp.subtitle": "Experience",
     "exp.title": "My Journey",
-    "exp.years": "3+ years transforming operations with data",
+    "exp.years": "3+ years building systems and products with data & AI",
     "exp.current": "Current",
     
     // Other Projects
@@ -187,8 +187,8 @@ const translations: Record<Language, Record<string, string>> = {
     
     // Contact
     "contact.subtitle": "Contact",
-    "contact.title": "Let's make better decisions",
-    "contact.description": "I work at the intersection of data, finance, and business. I help teams identify gaps, model scenarios, and turn complexity into clear, actionable decisions.",
+    "contact.title": "Let's build something that matters",
+    "contact.description": "I build products and systems at the intersection of data, AI, and business. I help teams turn complexity into clear tools people actually use.",
     "contact.sendEmail": "Send Email",
     "contact.schedule": "Schedule Meeting",
     "contact.freelance": "Strategic collaborations and full-time roles.",
